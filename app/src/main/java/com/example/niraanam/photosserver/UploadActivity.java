@@ -81,7 +81,7 @@ public class UploadActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // uploading the file to server
-                new UploadFileToServer().execute();
+                isInternetOn();
             }
         });
 
@@ -222,6 +222,33 @@ public class UploadActivity extends AppCompatActivity {
                 });
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    public final  boolean isInternetOn() {
+
+        if(isInternetAvailable()== true){
+
+            new UploadFileToServer().execute();
+
+
+        }else{
+            Toast.makeText(getApplicationContext(), " No Internet Connection!!! ", Toast.LENGTH_LONG).show();
+
+        }
+        return false;
+    }
+
+    public boolean isInternetAvailable() {
+        try {
+            Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.com");
+            int returnVal = p1.waitFor();
+            boolean reachable = (returnVal==0);
+            return reachable;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }
