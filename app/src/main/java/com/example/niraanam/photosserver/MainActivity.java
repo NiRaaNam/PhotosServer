@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // user cancelled Image capture
                 Toast.makeText(getApplicationContext(),
-                        "User cancelled image capture", Toast.LENGTH_SHORT)
+                        "User cancelled TAKE PHOTO", Toast.LENGTH_SHORT)
                         .show();
 
             } else {

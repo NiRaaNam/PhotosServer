@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -32,6 +33,7 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.File;
 import java.io.IOException;
+import android.media.ExifInterface;
 
 public class UploadActivity extends AppCompatActivity {
     // LogCat tag
@@ -44,6 +46,8 @@ public class UploadActivity extends AppCompatActivity {
     private VideoView vidPreview;
     private Button btnUpload;
     long totalSize = 0;
+
+    private String CheckPhotoLatlon = null;
 
     @SuppressLint("ResourceType")
     @Override
@@ -76,15 +80,55 @@ public class UploadActivity extends AppCompatActivity {
                     "Sorry, file path is missing!", Toast.LENGTH_LONG).show();
         }
 
+        //Exif Reader
+        try {
+            ExifInterface exif = new ExifInterface(filePath);
+
+            CheckPhotoLatlon = String.valueOf(getExifTag(exif,ExifInterface.TAG_GPS_LATITUDE)+getExifTag(exif,ExifInterface.TAG_GPS_LONGITUDE));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
         btnUpload.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 // uploading the file to server
-                isInternetOn();
+                if(TextUtils.isEmpty(CheckPhotoLatlon) || CheckPhotoLatlon==""){
+
+                    Toast.makeText(getApplicationContext(),
+                            "ภาพถ่ายไม่มีค่าพิกัด ;(", Toast.LENGTH_LONG).show();
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(UploadActivity.this);
+                    builder.setMessage("Photo is No GPS Value : Maybe Lost GPS signal or Don't turn on loacation tags for Camera Device").setTitle("Warning!!! No GPS Value")
+                            .setCancelable(false)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // do nothing
+                                    finish();
+
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(),
+                            "ภาพถ่ายมีค่าพิกัด ^-^", Toast.LENGTH_SHORT).show();
+
+                    isInternetOn();
+                }
+
             }
         });
+    }
 
+    private String getExifTag(ExifInterface exif,String tag){
+        String attribute = exif.getAttribute(tag);
+
+        return (null != attribute ? attribute : "");
     }
 
     /**
@@ -232,6 +276,7 @@ public class UploadActivity extends AppCompatActivity {
 
 
         }else{
+
             Toast.makeText(getApplicationContext(), " No Internet Connection!!! ", Toast.LENGTH_LONG).show();
 
         }

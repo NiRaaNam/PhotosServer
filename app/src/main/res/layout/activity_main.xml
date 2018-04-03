@@ -10,8 +10,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="104dp"
-        android:layout_marginRight="104dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="17sp"
         android:text="คำเตือน: อย่าลืมเปิด Location Tags ของกล้อง เพื่อให้ได้ภาพที่มีค่าพิกัด"
         android:textColor="#ff0000"
         app:layout_constraintBottom_toBottomOf="parent"
