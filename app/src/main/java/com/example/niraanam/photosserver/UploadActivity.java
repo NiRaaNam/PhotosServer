@@ -91,35 +91,51 @@ public class UploadActivity extends AppCompatActivity {
         }
 
 
+        if(TextUtils.isEmpty(CheckPhotoLatlon) || CheckPhotoLatlon==""){
+
+            File fdelete = new File(filePath);
+            if (fdelete.exists()) {
+                if(fdelete.delete()) {
+                }else{
+                }
+            }
+
+            Toast.makeText(getApplicationContext(),
+                    "ภาพถ่ายไม่มีค่าพิกัด ;(", Toast.LENGTH_LONG).show();
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(UploadActivity.this);
+            builder.setMessage("Photo is No GPS Value : Maybe Lost GPS signal or Don't turn on loacation tags for Camera Device."+"\n\n Press \"OK\"").setTitle("Warning!!! No GPS Value")
+                    .setCancelable(false)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // do nothing
+                            File fdelete = new File(filePath);
+                            if (fdelete.exists()) {
+                                if(fdelete.delete()) {
+                                }else{
+                                }
+                            }
+
+                            finish();
+
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
+        else {
+            Toast.makeText(getApplicationContext(),
+                    "ภาพถ่ายมีค่าพิกัด ^-^", Toast.LENGTH_SHORT).show();
+        }
+
+
+
         btnUpload.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 // uploading the file to server
-                if(TextUtils.isEmpty(CheckPhotoLatlon) || CheckPhotoLatlon==""){
-
-                    Toast.makeText(getApplicationContext(),
-                            "ภาพถ่ายไม่มีค่าพิกัด ;(", Toast.LENGTH_LONG).show();
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(UploadActivity.this);
-                    builder.setMessage("Photo is No GPS Value : Maybe Lost GPS signal or Don't turn on loacation tags for Camera Device").setTitle("Warning!!! No GPS Value")
-                            .setCancelable(false)
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    // do nothing
-                                    finish();
-
-                                }
-                            });
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                }
-                else {
-                    Toast.makeText(getApplicationContext(),
-                            "ภาพถ่ายมีค่าพิกัด ^-^", Toast.LENGTH_SHORT).show();
-
-                    isInternetOn();
-                }
+                isInternetOn();
 
             }
         });
@@ -255,12 +271,26 @@ public class UploadActivity extends AppCompatActivity {
      * Method to show alert dialog
      * */
     private void showAlert(String message) {
+
+        File fdelete = new File(filePath);
+        if (fdelete.exists()) {
+            if(fdelete.delete()) {
+            }else{
+            }
+        }
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(message).setTitle("Response from Servers")
                 .setCancelable(false)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // do nothing
+                        File fdelete = new File(filePath);
+                        if (fdelete.exists()) {
+                            if(fdelete.delete()) {
+                            }else{
+                            }
+                        }
                         finish();
                     }
                 });
