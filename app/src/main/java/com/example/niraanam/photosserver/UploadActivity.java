@@ -44,7 +44,7 @@ public class UploadActivity extends AppCompatActivity {
     private TextView txtPercentage;
     private ImageView imgPreview;
     private VideoView vidPreview;
-    private Button btnUpload;
+    private Button btnUpload,btnBack;
     long totalSize = 0;
 
     private String CheckPhotoLatlon = null;
@@ -56,6 +56,7 @@ public class UploadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_upload);
         txtPercentage = (TextView) findViewById(R.id.txtPercentage);
         btnUpload = (Button) findViewById(R.id.btnUpload);
+        btnBack = (Button) findViewById(R.id.btnBack);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         imgPreview = (ImageView) findViewById(R.id.imgPreview);
         vidPreview = (VideoView) findViewById(R.id.videoPreview);
@@ -86,6 +87,7 @@ public class UploadActivity extends AppCompatActivity {
 
             CheckPhotoLatlon = String.valueOf(getExifTag(exif,ExifInterface.TAG_GPS_LATITUDE)+getExifTag(exif,ExifInterface.TAG_GPS_LONGITUDE));
 
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -108,7 +110,7 @@ public class UploadActivity extends AppCompatActivity {
                     .setCancelable(false)
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            // do nothing
+                            // delete photo after checking Photo was no GPS value
                             File fdelete = new File(filePath);
                             if (fdelete.exists()) {
                                 if(fdelete.delete()) {
@@ -128,14 +130,22 @@ public class UploadActivity extends AppCompatActivity {
                     "ภาพถ่ายมีค่าพิกัด ^-^", Toast.LENGTH_SHORT).show();
         }
 
-
-
         btnUpload.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 // uploading the file to server
                 isInternetOn();
+
+            }
+        });
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // uploading the file to server
+                finish();
 
             }
         });
@@ -272,25 +282,26 @@ public class UploadActivity extends AppCompatActivity {
      * */
     private void showAlert(String message) {
 
-        File fdelete = new File(filePath);
+        // Delete photo after send to server
+        /*File fdelete = new File(filePath);
         if (fdelete.exists()) {
             if(fdelete.delete()) {
             }else{
             }
-        }
+        }*/
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(message).setTitle("Response from Servers")
                 .setCancelable(false)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // do nothing
-                        File fdelete = new File(filePath);
+                        // Delete photo after send to server
+                        /*File fdelete = new File(filePath);
                         if (fdelete.exists()) {
                             if(fdelete.delete()) {
                             }else{
                             }
-                        }
+                        }*/
                         finish();
                     }
                 });

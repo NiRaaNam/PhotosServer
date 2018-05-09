@@ -38,7 +38,24 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="@string/btnTakePicture"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:drawableLeft="@drawable/ic_party_mode_black_24dp"/>
+
+
+        <TextView
+            android:id="@+id/txtAzimuth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="top|center"
+            android:padding="15dp"
+            android:textColor="#3F51B5"
+            android:textSize="15dp"
+            android:text="Azimuth: "/>
+
+
+
 
     </LinearLayout>
 

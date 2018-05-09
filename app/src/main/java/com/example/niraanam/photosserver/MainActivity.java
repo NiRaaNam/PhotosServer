@@ -4,6 +4,11 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.hardware.Camera;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +19,7 @@ import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import android.annotation.SuppressLint;
@@ -23,6 +29,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import java.io.File;
 import java.lang.reflect.Method;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -43,12 +50,22 @@ import android.widget.Toast;
 
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     Context context;
     Intent intent1;
     LocationManager locationManager;
     boolean GpsStatus;
+
+    private Sensor sensorAccelerometer;
+    private TextView tvAzimuth;
+    private SensorManager sensorManager;
+
+    private String sendAzimuth="";
+    private String sendAzimuth2="";
+
+    private Camera mCamera;
+    private AzimuthView cameraView;
 
     // LogCat tag
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -70,6 +87,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //Toast.makeText(getApplicationContext(), "คำเตือน: อย่าลืมเปิด Location Tags ของกล้อง เพื่อให้ได้ภาพที่มีค่าพิกัด", Toast.LENGTH_LONG).show();
+
+        sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+        sensorAccelerometer = sensorManager.getDefaultSensor(
+                Sensor.TYPE_ROTATION_VECTOR);
+
+        try{
+            mCamera = Camera.open();
+
+        } catch(Exception e) {
+            //Log.d(getResources().getString(R.string.error), "Failed to get camera: " + e.getMessage());
+        }
+
 
         ActivityCompat.requestPermissions(MainActivity.this,
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA,Manifest.permission.ACCESS_FINE_LOCATION,
@@ -119,6 +148,31 @@ public class MainActivity extends AppCompatActivity {
             // will close the app if the device does't have camera
             finish();
         }
+    }
+
+    public void GOTOAlert(){
+
+        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+        alertDialog.setTitle("Confirm Azimuth Value");
+        alertDialog.setMessage("Azimuth is "+sendAzimuth);
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        sendAzimuth2 = sendAzimuth;
+
+                        // capture picture
+                        captureImage();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "NO",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+
+
     }
 
     public void GPSStatus(){
@@ -240,6 +294,7 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(MainActivity.this, UploadActivity.class);
         i.putExtra("filePath", fileUri.getPath());
         i.putExtra("isImage", isImage);
+        i.putExtra("AzimuthValue",sendAzimuth2);
         startActivity(i);
     }
 
@@ -276,8 +331,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Create a media file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
-                Locale.getDefault()).format(new Date());
+        /*String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+                Locale.getDefault()).format(new Date());*/
+        Date date = new Date();
+        String timeStamp = String.valueOf(new Timestamp(date.getTime()));
+        String[] separated = timeStamp.split(":");
+        timeStamp = separated[0]+"-"+separated[1]+"-"+separated[2];
+        //System.out.println(new Timestamp(date.getTime()));
+        //String timeStamp = date.toString();
+
         File mediaFile;
         if (type == MEDIA_TYPE_IMAGE) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator
@@ -290,5 +352,64 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return mediaFile;
+    }
+
+
+    @Override
+    protected void onPause() {
+
+        super.onPause();
+        sensorManager.unregisterListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sensorManager.registerListener(this,
+                sensorAccelerometer,
+                SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor arg0, int arg1) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+
+        /*
+         * event.values[0]: azimuth, rotation around the Z axis.
+         * event.values[1]: pitch, rotation around the X axis.
+         * event.values[2]: roll, rotation around the Y axis.
+         */
+
+        int azimuth = 0;
+        float[] mRotationMatrix = new float[9];
+        float[] orientationVals = new float[3];
+        SensorManager.getRotationMatrixFromVector(mRotationMatrix,
+                event.values);
+        float orientation = (float) Math.acos(mRotationMatrix[8]);
+        // if(orientation > Math.toRadians(FORTY_FIVE_DEGREES_IN_RADIAN)
+        //        || orientation < Math.toRadians(ONE_THIRTY_FIVE_DEGREES_IN_RADIAN)) {
+
+        //     SensorManager.getOrientation(mRotationMatrix, orientationVals);
+
+        // } else {
+
+        SensorManager.remapCoordinateSystem(mRotationMatrix,
+                SensorManager.AXIS_X, SensorManager.AXIS_Z,
+                mRotationMatrix);
+        SensorManager.getOrientation(mRotationMatrix, orientationVals);
+        //    }
+        orientationVals[0] = (float) Math.toDegrees(orientationVals[0]);
+        azimuth = Math.round(orientationVals[0]);
+        if(azimuth < 0) {
+            azimuth += 360;
+        }
+        tvAzimuth.setText("Azimuth : "+String.valueOf(azimuth));
+        sendAzimuth = String.valueOf(azimuth);
+
     }
 }
