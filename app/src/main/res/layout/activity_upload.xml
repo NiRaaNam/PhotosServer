@@ -45,39 +45,77 @@
         android:visibility="gone"/>
 
 
+    <EditText
+        android:id="@+id/edtComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Any Comment"
+        android:inputType="textPersonName" />
 
-
+    <Button
+        android:id="@+id/btnUpload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="right"
+        android:background="@color/btn_bg"
+        android:drawableLeft="@drawable/ic_send_black_24dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="@string/btnUploadToServer"
+        android:textColor="@color/white" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/btnUpload"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal"
-            android:background="@color/btn_bg"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="@string/btnUploadToServer"
-            android:textColor="@color/white" />
 
-        <Button
-            android:id="@+id/btnBack"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/txtAzimuth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/txtXY"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtAzimuth"
+                android:text="TextView" />
+
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_gravity="right"
-            android:background="@color/btn_bg"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="Back"
-            android:textColor="@color/red" />
+            android:layout_gravity="bottom">
+
+            <Button
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="@color/btn_bg"
+                android:drawableLeft="@drawable/ic_reply_black_24dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="Back"
+                android:textColor="@color/red" />
+        </FrameLayout>
+
     </RelativeLayout>
+
+
 
 
 </LinearLayout>

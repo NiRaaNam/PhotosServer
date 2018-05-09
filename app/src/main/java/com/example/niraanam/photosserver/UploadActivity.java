@@ -41,13 +41,16 @@ public class UploadActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
     private String filePath = null;
-    private TextView txtPercentage;
+    private TextView txtPercentage,txtAzimuth,txtNameImg;
     private ImageView imgPreview;
     private VideoView vidPreview;
     private Button btnUpload,btnBack;
     long totalSize = 0;
 
     private String CheckPhotoLatlon = null;
+
+    private String  Azimuth= null;
+    ExifInterface exif;
 
     @SuppressLint("ResourceType")
     @Override
@@ -61,6 +64,9 @@ public class UploadActivity extends AppCompatActivity {
         imgPreview = (ImageView) findViewById(R.id.imgPreview);
         vidPreview = (VideoView) findViewById(R.id.videoPreview);
 
+        txtAzimuth = (TextView) findViewById(R.id.txtAzimuth);
+        txtNameImg = (TextView) findViewById(R.id.txtXY);
+
         // Changing action bar background color
         //getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(getResources().getString(R.color.action_bar))));
 
@@ -69,6 +75,8 @@ public class UploadActivity extends AppCompatActivity {
 
         // image or video path that is captured in previous activity
         filePath = i.getStringExtra("filePath");
+        Azimuth = i.getStringExtra("AzimuthValue");
+        txtAzimuth.setText("Azimuth: "+Azimuth);
 
         // boolean flag to identify the media type, image or video
         boolean isImage = i.getBooleanExtra("isImage", true);
@@ -83,7 +91,7 @@ public class UploadActivity extends AppCompatActivity {
 
         //Exif Reader
         try {
-            ExifInterface exif = new ExifInterface(filePath);
+            exif = new ExifInterface(filePath);
 
             CheckPhotoLatlon = String.valueOf(getExifTag(exif,ExifInterface.TAG_GPS_LATITUDE)+getExifTag(exif,ExifInterface.TAG_GPS_LONGITUDE));
 
@@ -128,6 +136,33 @@ public class UploadActivity extends AppCompatActivity {
         else {
             Toast.makeText(getApplicationContext(),
                     "ภาพถ่ายมีค่าพิกัด ^-^", Toast.LENGTH_SHORT).show();
+
+
+            //exif.setAttribute(ExifInterface.TAG_GPS_IMG_DIRECTION, Azimuth);
+            //exif.readExif(exifVar.getAbsolutePath());
+            //exif.setTagValue(ExifInterface.TAG_USER_COMMENT, mString);
+            try{
+
+                //exif.setAttribute(ExifInterface.TAG_USER_COMMENT,Azimuth);
+                String theazimuth = "Azimuth: "+Azimuth;
+                exif.setAttribute(ExifInterface.TAG_IMAGE_DESCRIPTION,theazimuth);
+                exif.setAttribute(ExifInterface.TAG_COPYRIGHT,"GISTDA (Public Organization)");
+
+                /*Toast.makeText(getApplicationContext(),
+                        "X: "+sendLatitude+"\n"+"Y: "+sendLongitude, Toast.LENGTH_LONG).show();
+
+                exif.setAttribute(ExifInterface.TAG_GPS_LATITUDE,sendLatitude.toString());
+                exif.setAttribute(ExifInterface.TAG_GPS_LATITUDE_REF,"N");
+                exif.setAttribute(ExifInterface.TAG_GPS_LONGITUDE,sendLongitude.toString());
+                exif.setAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF,"E");*/
+
+                exif.saveAttributes();
+
+
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+
         }
 
         btnUpload.setOnClickListener(new View.OnClickListener() {
@@ -156,6 +191,7 @@ public class UploadActivity extends AppCompatActivity {
 
         return (null != attribute ? attribute : "");
     }
+
 
     /**
      * Displaying captured image/video on the screen
