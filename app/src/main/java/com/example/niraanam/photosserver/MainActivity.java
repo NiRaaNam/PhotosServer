@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private Uri fileUri; // file url to store image/video
 
-    private Button btnCapturePicture;
+    private Button btnCapturePicture,btnFromGallery;
 
     @SuppressLint("ResourceType")
 
@@ -149,11 +149,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             // will close the app if the device does't have camera
             finish();
         }
+
+        btnFromGallery = (Button) findViewById(R.id.btnFromGallery);
+        btnFromGallery.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(MainActivity.this, MainActivity2.class);
+                startActivity(i);
+
+            }
+        });
     }
 
     public void GOTOAlert(){
 
-        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+        /*AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
         alertDialog.setTitle("Confirm Azimuth Value");
         alertDialog.setMessage("Azimuth is "+sendAzimuth);
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES",
@@ -171,7 +183,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         dialog.dismiss();
                     }
                 });
-        alertDialog.show();
+        alertDialog.show();*/
+        Toast.makeText(MainActivity.this, "Azimuth is "+sendAzimuth, Toast.LENGTH_LONG).show();
+        sendAzimuth2 = sendAzimuth;
+
+        // capture picture
+        captureImage();
 
 
     }
@@ -317,10 +334,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
         // External sdcard location
-        File mediaStorageDir = new File(
-                Environment
-                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-                Config.IMAGE_DIRECTORY_NAME);
+        //File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), Config.IMAGE_DIRECTORY_NAME);
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), Config.IMAGE_DIRECTORY_NAME);
 
         // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists()) {

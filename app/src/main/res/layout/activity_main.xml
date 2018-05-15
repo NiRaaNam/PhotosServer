@@ -67,5 +67,18 @@
         android:layout_alignParentEnd="true"
         app:srcCompat="@drawable/gistda" />
 
+    <Button
+        android:id="@+id/btnFromGallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/imageView2"
+        android:background="@color/btn_bg"
+        android:drawableLeft="@drawable/ic_photo_library_black_24dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="@string/btnSelectGallery"
+        android:textColor="@color/white" />
+
 
 </RelativeLayout>

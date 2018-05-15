@@ -9,5 +9,5 @@ public class Config {
     public static final String FILE_UPLOAD_URL = "http://150.107.31.104/photo_android/file_upload.php";
 
     // Directory name to store captured images and videos
-    public static final String IMAGE_DIRECTORY_NAME = "01GISTDA Photo Upload";
+    public static final String IMAGE_DIRECTORY_NAME = "Camera";
 }

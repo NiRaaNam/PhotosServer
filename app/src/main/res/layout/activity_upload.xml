@@ -45,6 +45,14 @@
         android:visibility="gone"/>
 
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="10dp"
+        android:textColor="#c50f12"
+        android:text="ใส่คำอธิบายเพิ่มเติม (ถ้าต้องการ)>> ปล.รองรับเฉพาะภาษาอังกฤษ ^^" />
+
     <EditText
         android:id="@+id/edtComment"
         android:layout_width="match_parent"
@@ -89,7 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtAzimuth"
-                android:text="TextView" />
+                android:text="" />
 
 
         </LinearLayout>
@@ -114,8 +122,6 @@
         </FrameLayout>
 
     </RelativeLayout>
-
-
 
 
 </LinearLayout>

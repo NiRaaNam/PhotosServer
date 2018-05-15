@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -33,6 +34,8 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
+
 import android.media.ExifInterface;
 
 public class UploadActivity extends AppCompatActivity {
@@ -42,6 +45,7 @@ public class UploadActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private String filePath = null;
     private TextView txtPercentage,txtAzimuth,txtNameImg;
+    private EditText edtComment;
     private ImageView imgPreview;
     private VideoView vidPreview;
     private Button btnUpload,btnBack;
@@ -49,7 +53,7 @@ public class UploadActivity extends AppCompatActivity {
 
     private String CheckPhotoLatlon = null;
 
-    private String  Azimuth= null;
+    private String  Azimuth,GetEditText= null;
     ExifInterface exif;
 
     @SuppressLint("ResourceType")
@@ -63,6 +67,8 @@ public class UploadActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         imgPreview = (ImageView) findViewById(R.id.imgPreview);
         vidPreview = (VideoView) findViewById(R.id.videoPreview);
+
+        edtComment = (EditText) findViewById(R.id.edtComment);
 
         txtAzimuth = (TextView) findViewById(R.id.txtAzimuth);
         txtNameImg = (TextView) findViewById(R.id.txtXY);
@@ -169,8 +175,20 @@ public class UploadActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                // uploading the file to server
+                // uploading the file to server and save comment
+                GetEditText = edtComment.getText().toString();
+
+                try{
+
+                    exif.setAttribute(ExifInterface.TAG_USER_COMMENT,GetEditText);
+                    exif.saveAttributes();
+
+
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
                 isInternetOn();
+
 
             }
         });
@@ -179,11 +197,43 @@ public class UploadActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                // uploading the file to server
+                //Back and Save Comment
+                GetEditText = edtComment.getText().toString();
+
+                try{
+
+                    exif.setAttribute(ExifInterface.TAG_USER_COMMENT,GetEditText);
+                    exif.saveAttributes();
+
+
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+
+
                 finish();
 
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        GetEditText = edtComment.getText().toString();
+
+        try{
+
+            exif.setAttribute(ExifInterface.TAG_USER_COMMENT,GetEditText);
+            exif.saveAttributes();
+
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        finish();
+
     }
 
     private String getExifTag(ExifInterface exif,String tag){
