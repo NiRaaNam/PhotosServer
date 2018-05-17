@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private Uri fileUri; // file url to store image/video
 
-    private Button btnCapturePicture,btnFromGallery;
+    private Button btnCapturePicture,btnFromGallery,btnViewAll;
 
     @SuppressLint("ResourceType")
 
@@ -157,6 +157,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             public void onClick(View v) {
 
                 Intent i = new Intent(MainActivity.this, MainActivity2.class);
+                startActivity(i);
+
+            }
+        });
+
+        btnViewAll = (Button) findViewById(R.id.DB_list);
+        btnViewAll.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(MainActivity.this, Table_ShowAllList.class);
                 startActivity(i);
 
             }
