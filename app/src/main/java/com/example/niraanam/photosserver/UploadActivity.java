@@ -53,7 +53,7 @@ public class UploadActivity extends AppCompatActivity {
 
     private String CheckPhotoLatlon = null;
 
-    private String  Azimuth,GetEditText= null;
+    private String  Azimuth,Lat,Lon,GetEditText= null;
     ExifInterface exif;
 
     @SuppressLint("ResourceType")
@@ -82,7 +82,18 @@ public class UploadActivity extends AppCompatActivity {
         // image or video path that is captured in previous activity
         filePath = i.getStringExtra("filePath");
         Azimuth = i.getStringExtra("AzimuthValue");
-        txtAzimuth.setText("Azimuth: "+Azimuth);
+        Lat = i.getStringExtra("LatValue");
+        Lon = i.getStringExtra("LonValue");
+
+        String[] separated = Lat.split(":");
+        String tmp_lat = separated[0]+"/1,"+separated[1]+"/1,"+separated[2]+"/1";
+        Lat = tmp_lat;
+
+        String[] separated2 = Lon.split(":");
+        String tmp_lon = separated2[0]+"/1,"+separated2[1]+"/1,"+separated2[2]+"/1";
+        Lon = tmp_lon;
+
+        txtAzimuth.setText("Azimuth: "+Azimuth+"\nLatitude: "+tmp_lat+"\nLongitude: "+Lon);
 
         // boolean flag to identify the media type, image or video
         boolean isImage = i.getBooleanExtra("isImage", true);
@@ -99,15 +110,37 @@ public class UploadActivity extends AppCompatActivity {
         try {
             exif = new ExifInterface(filePath);
 
-            CheckPhotoLatlon = String.valueOf(getExifTag(exif,ExifInterface.TAG_GPS_LATITUDE)+getExifTag(exif,ExifInterface.TAG_GPS_LONGITUDE));
+            //CheckPhotoLatlon = String.valueOf(getExifTag(exif,ExifInterface.TAG_GPS_LATITUDE)+getExifTag(exif,ExifInterface.TAG_GPS_LONGITUDE));
 
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        try{
 
-        if(TextUtils.isEmpty(CheckPhotoLatlon) || CheckPhotoLatlon==""){
+            //exif.setAttribute(ExifInterface.TAG_USER_COMMENT,Azimuth);
+            String theazimuth = "Azimuth: "+Azimuth;
+            exif.setAttribute(ExifInterface.TAG_IMAGE_DESCRIPTION,theazimuth);
+            exif.setAttribute(ExifInterface.TAG_COPYRIGHT,"GISTDA (Public Organization)");
+
+            Toast.makeText(getApplicationContext(),
+                    "X: "+Lat+"\n"+"Y: "+Lon, Toast.LENGTH_LONG).show();
+
+            exif.setAttribute(ExifInterface.TAG_GPS_LATITUDE,Lat.toString());
+            exif.setAttribute(ExifInterface.TAG_GPS_LATITUDE_REF,"N");
+            exif.setAttribute(ExifInterface.TAG_GPS_LONGITUDE,Lon.toString());
+            exif.setAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF,"E");
+
+            exif.saveAttributes();
+
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+
+       /* if(TextUtils.isEmpty(CheckPhotoLatlon) || CheckPhotoLatlon==""){
 
             File fdelete = new File(filePath);
             if (fdelete.exists()) {
@@ -125,12 +158,12 @@ public class UploadActivity extends AppCompatActivity {
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // delete photo after checking Photo was no GPS value
-                            File fdelete = new File(filePath);
+                            *//*File fdelete = new File(filePath);
                             if (fdelete.exists()) {
                                 if(fdelete.delete()) {
                                 }else{
                                 }
-                            }
+                            }*//*
 
                             finish();
 
@@ -143,6 +176,9 @@ public class UploadActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),
                     "ภาพถ่ายมีค่าพิกัด ^-^", Toast.LENGTH_SHORT).show();
 
+            Toast.makeText(getApplicationContext(),
+                    "X : "+String.valueOf(getExifTag(exif,ExifInterface.TAG_GPS_LATITUDE))+"\n"+"Y : "+String.valueOf(getExifTag(exif,ExifInterface.TAG_GPS_LONGITUDE)), Toast.LENGTH_SHORT).show();
+
 
             //exif.setAttribute(ExifInterface.TAG_GPS_IMG_DIRECTION, Azimuth);
             //exif.readExif(exifVar.getAbsolutePath());
@@ -154,13 +190,13 @@ public class UploadActivity extends AppCompatActivity {
                 exif.setAttribute(ExifInterface.TAG_IMAGE_DESCRIPTION,theazimuth);
                 exif.setAttribute(ExifInterface.TAG_COPYRIGHT,"GISTDA (Public Organization)");
 
-                /*Toast.makeText(getApplicationContext(),
+                Toast.makeText(getApplicationContext(),
                         "X: "+sendLatitude+"\n"+"Y: "+sendLongitude, Toast.LENGTH_LONG).show();
 
                 exif.setAttribute(ExifInterface.TAG_GPS_LATITUDE,sendLatitude.toString());
                 exif.setAttribute(ExifInterface.TAG_GPS_LATITUDE_REF,"N");
                 exif.setAttribute(ExifInterface.TAG_GPS_LONGITUDE,sendLongitude.toString());
-                exif.setAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF,"E");*/
+                exif.setAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF,"E");
 
                 exif.saveAttributes();
 
@@ -169,7 +205,7 @@ public class UploadActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-        }
+        }*/
 
         btnUpload.setOnClickListener(new View.OnClickListener() {
 
@@ -376,23 +412,27 @@ public class UploadActivity extends AppCompatActivity {
             }
         }*/
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(message).setTitle("Response from Servers")
                 .setCancelable(false)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // Delete photo after send to server
-                        /*File fdelete = new File(filePath);
+                        *//*File fdelete = new File(filePath);
                         if (fdelete.exists()) {
                             if(fdelete.delete()) {
                             }else{
                             }
-                        }*/
+                        }*//*
                         finish();
                     }
                 });
         AlertDialog alert = builder.create();
-        alert.show();
+        alert.show();*/
+
+        Toast.makeText(getApplicationContext(),
+                "Photo Succesfully Uploaded", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     public final  boolean isInternetOn() {

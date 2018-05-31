@@ -9,6 +9,9 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,10 +31,12 @@ import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -48,9 +53,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
 
-public class MainActivity extends AppCompatActivity implements SensorEventListener {
+public class MainActivity extends AppCompatActivity implements SensorEventListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+
+    LocationRequest locationRequest;
+    GoogleApiClient googleApiClient;
 
     Context context;
     Intent intent1;
@@ -58,11 +73,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     boolean GpsStatus;
 
     private Sensor sensorAccelerometer;
-    private TextView tvAzimuth;
+    private TextView tvAzimuth,txtDMS;
     private SensorManager sensorManager;
 
     private String sendAzimuth="";
     private String sendAzimuth2="";
+
+    private String sendLatitude="";
+    private String sendLatitude2="";
+
+    private String sendLongitude="";
+    private String sendLongitude2="";
 
     private Camera mCamera;
     private AzimuthView cameraView;
@@ -89,6 +110,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         //Toast.makeText(getApplicationContext(), "คำเตือน: อย่าลืมเปิด Location Tags ของกล้อง เพื่อให้ได้ภาพที่มีค่าพิกัด", Toast.LENGTH_LONG).show();
 
         tvAzimuth = (TextView) findViewById(R.id.txtAzimuth);
+        txtDMS= (TextView) findViewById(R.id.dms);
+
         sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         sensorAccelerometer = sensorManager.getDefaultSensor(
                 Sensor.TYPE_ROTATION_VECTOR);
@@ -136,7 +159,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             @Override
             public void onClick(View v) {
 
-                GOTOAlert();
+                if(sendLatitude==""||sendLatitude==null||sendLongitude==""||sendLongitude==null){
+                    Toast.makeText(getApplicationContext(),
+                            "Please wait for GPS Values",
+                            Toast.LENGTH_SHORT).show();
+                }else {
+                    GOTOAlert();
+                }
 
             }
         });
@@ -173,7 +202,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             }
         });
+
+        connectToApi();
     }
+
+
 
     public void GOTOAlert(){
 
@@ -198,6 +231,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         alertDialog.show();*/
         Toast.makeText(MainActivity.this, "Azimuth is "+sendAzimuth, Toast.LENGTH_LONG).show();
         sendAzimuth2 = sendAzimuth;
+        sendLatitude2 = sendLatitude;
+        sendLongitude2 = sendLongitude;
 
         // capture picture
         captureImage();
@@ -325,6 +360,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         i.putExtra("filePath", fileUri.getPath());
         i.putExtra("isImage", isImage);
         i.putExtra("AzimuthValue",sendAzimuth2);
+        i.putExtra("LatValue",sendLatitude2);
+        i.putExtra("LonValue",sendLongitude2);
         startActivity(i);
     }
 
@@ -438,6 +475,104 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
         tvAzimuth.setText("Azimuth : "+String.valueOf(azimuth));
         sendAzimuth = String.valueOf(azimuth);
+
+    }
+
+    public void connectToApi() {
+        if (GooglePlayServicesUtil.isGooglePlayServicesAvailable(this) == ConnectionResult.SUCCESS) {
+            googleApiClient = new GoogleApiClient.Builder(this)
+                    .addApi(LocationServices.API)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .build();
+
+            if (!googleApiClient.isConnected() || !googleApiClient.isConnecting()) {
+                googleApiClient.connect();
+                Log.d("TAG", "connect");
+            }
+        } else {
+            Log.e("TAG", "unable to connect to google play services.");
+        }
+
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        locationRequest = LocationRequest.create();
+        locationRequest.setInterval(1000); // milliseconds
+        locationRequest.setFastestInterval(1000); // the fastest rate in milliseconds at which your app can handle location updates
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        getLocation();
+
+    }
+
+    private void getLocation() {
+        // shows an error but works if this permission check is not added.
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        // here you get the location with location service/gps is on
+        LocationServices.FusedLocationApi.requestLocationUpdates(
+                googleApiClient, locationRequest, new LocationListener() {
+                    @Override
+                    public void onLocationChanged(Location location) {
+                        double lat = location.getLatitude();
+                        double lon = location.getLongitude();
+
+
+                        String strLongitude = Location.convert(location.getLongitude(), location.FORMAT_SECONDS);
+                        String strLatitude = Location.convert(location.getLatitude(), location.FORMAT_SECONDS);
+
+                        /*String fullAddress = "";
+                        try {
+                            Geocoder geocoder;
+                            List<Address> addresses;
+                            geocoder = new Geocoder(AA_GetCurrentLocation.this, Locale.getDefault());
+                            addresses = geocoder.getFromLocation(lat, lon, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+
+                            String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                            String city = addresses.get(0).getLocality();
+                            String state = addresses.get(0).getAdminArea();
+                            String country = addresses.get(0).getCountryName();
+                            String postalCode = addresses.get(0).getPostalCode();
+
+                            fullAddress = address + ", " + city + ", " + state + ", " + country + ", " + postalCode;
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }*/
+
+                        //textView.setText("Latitude:" + lat + "\nLongitude:" + lon + "\nAddress:" + fullAddress);
+
+                        txtDMS.setText("Latitude:" + strLatitude + "\nLongitude:" + strLongitude);
+
+                        sendLatitude = strLatitude;
+                        sendLongitude = strLongitude;
+
+                    }
+                });
+
+
+
+
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
 
     }
 }
