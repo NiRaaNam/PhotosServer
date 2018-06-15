@@ -86,13 +86,14 @@ public class Table_ShowAllList extends AppCompatActivity {
 
                 // TODO Auto-generated method stub
 
-                /*Intent intent = new Intent(Table_ShowAllList.this,Table_ShowSingle.class);
+                Intent intent = new Intent(Table_ShowAllList.this,Table_ShowSingle.class);
 
                 // Sending ListView clicked value using intent.
                 intent.putExtra("ListViewValue", IdList.get(position).toString());
 
-                startActivity(intent);*/
+                startActivity(intent);
 
+                //Toast.makeText(getApplicationContext(), "User Clicked : "+ IdList.get(position).toString(), Toast.LENGTH_LONG).show();
 
             }
         });
@@ -102,7 +103,8 @@ public class Table_ShowAllList extends AppCompatActivity {
 
         if(isInternetAvailable()== true){
 
-            HttpUrl = "http://150.107.31.104/photo_android/read.php";
+            //HttpUrl = "http://150.107.31.104/photo_android/read.php";
+            HttpUrl = Config.PATH_READALL_FROMSERVER;
 
             new GetHttpResponse(Table_ShowAllList.this).execute();
 

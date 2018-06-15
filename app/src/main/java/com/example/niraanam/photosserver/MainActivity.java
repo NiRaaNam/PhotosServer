@@ -3,6 +3,7 @@ package com.example.niraanam.photosserver;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.hardware.Sensor;
@@ -20,8 +21,10 @@ import android.content.Intent;
 import android.location.LocationManager;
 import android.provider.Settings;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,7 +65,11 @@ import com.google.android.gms.location.LocationServices;
 
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
 
-public class MainActivity extends AppCompatActivity implements SensorEventListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class MainActivity extends AppCompatActivity implements SensorEventListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, AdapterView.OnItemSelectedListener {
+
+    String[] plantNames={"New Selecting","Rice","Maize"};
+    int flags[] = {R.drawable.ic_refresh_black_24dp,R.drawable.rice, R.drawable.maize};
+
 
     LocationRequest locationRequest;
     GoogleApiClient googleApiClient;
@@ -73,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     boolean GpsStatus;
 
     private Sensor sensorAccelerometer;
-    private TextView tvAzimuth,txtDMS;
+    private TextView tvAzimuth,txtDMS,txtPlantSelecting;
     private SensorManager sensorManager;
 
     private String sendAzimuth="";
@@ -99,7 +106,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private Uri fileUri; // file url to store image/video
 
-    private Button btnCapturePicture,btnFromGallery,btnViewAll;
+    private Button btnCapturePicture,btnFromGallery,btnViewAll,btnOK;
+
+    Spinner spin;
+    SharedPreferences pref;
+    String getPlant,finalPlant;
 
     @SuppressLint("ResourceType")
 
@@ -111,6 +122,74 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         tvAzimuth = (TextView) findViewById(R.id.txtAzimuth);
         txtDMS= (TextView) findViewById(R.id.dms);
+        txtPlantSelecting = (TextView) findViewById(R.id.txtSelectedPlant);
+
+        btnOK = (Button) findViewById(R.id.btnOK);
+
+        pref = getSharedPreferences("PlantPref", MODE_PRIVATE);
+        getPlant = pref.getString("Plant", "");
+        if(getPlant.toString()==""||getPlant.toString()==null){
+
+                SharedPreferences.Editor edit = pref.edit();
+                //Storing Data using SharedPreferences
+                edit.putString("Plant", "No Selecting");
+                edit.commit();
+                getPlant = pref.getString("Plant", "");
+        }
+
+        //Toast.makeText(getApplicationContext(), getPlant.toString(), Toast.LENGTH_LONG).show();
+
+        txtPlantSelecting.setText(getPlant.toString());
+        spin = (Spinner) findViewById(R.id.spinner);
+        spin.setOnItemSelectedListener(this);
+
+        CustomAdapter_Spinner customAdapter_spinner=new CustomAdapter_Spinner(getApplicationContext(),flags,plantNames);
+        spin.setAdapter(customAdapter_spinner);
+        if(getPlant.equals("Rice")){
+            spin.setSelection(1);
+        }else if(getPlant.equals("Maize")){
+            spin.setSelection(2);
+        }else {
+            spin.setSelection(0);
+        }
+
+
+        btnOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                //alertDialog.setTitle("Confirm Plant Selecting");
+                alertDialog.setMessage("You are selected \""+finalPlant+"\"");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                SharedPreferences.Editor edit = pref.edit();
+                                //Storing Data using SharedPreferences
+                                edit.putString("Plant", finalPlant);
+                                edit.commit();
+                                getPlant = pref.getString("Plant", "");
+
+
+                                txtPlantSelecting.setText(getPlant.toString());
+
+                                Toast.makeText(getApplicationContext(), "Actived on "+getPlant.toString(), Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "NO",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+
+            }
+
+        });
 
         sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         sensorAccelerometer = sensorManager.getDefaultSensor(
@@ -204,6 +283,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         });
 
         connectToApi();
+
+
+
     }
 
 
@@ -575,4 +657,21 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
     }
+
+    //Performing action onItemSelected and onNothing selected
+    @Override
+    public void onItemSelected(AdapterView<?> arg0, View arg1, int position,long id) {
+
+        //String selectPlant = plantNames[position].toString();
+
+        finalPlant = plantNames[position].toString();
+
+        //Toast.makeText(getApplicationContext(), plantNames[position], Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> arg0) {
+        // TODO Auto-generated method stub
+    }
+
 }

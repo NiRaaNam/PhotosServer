@@ -45,6 +45,12 @@
         <activity
             android:name="com.example.niraanam.photosserver.Table_ShowAllList">
         </activity>
+
+        <activity
+            android:name="com.example.niraanam.photosserver.Table_ShowSingle"
+            android:screenOrientation="portrait">
+        </activity>
+
     </application>
 
 </manifest>

@@ -44,4 +44,8 @@ dependencies {
     compile 'com.erikagtierrez.multiple_media_picker:multiple-media-picker:1.0.3'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.google.android.gms:play-services-location:11.8.0'
+
+    compile 'com.google.firebase:firebase-config:11.8.0'
+    compile 'com.google.firebase:firebase-messaging:11.8.0'
 }
+apply plugin: 'com.google.gms.google-services'

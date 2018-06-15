@@ -9,14 +9,16 @@
 
     <TextView
         android:id="@+id/guideTXT"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textSize="17sp"
         android:text="COPYRIGHT © GISTDA"
-        android:textStyle="bold"
+        android:textAlignment="center"
         android:textColor="#ff0000"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:background="#a4c0f5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -30,6 +32,25 @@
         android:layout_below="@+id/guideTXT"
         android:drawableLeft="@drawable/ic_view_list_black_24dp"
         android:text="View All" />
+
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/guideTXT" />
+
+    <Button
+        android:id="@+id/btnOK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/spinner"
+        android:text="OK" />
+
+
+
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -52,6 +73,18 @@
             android:textColor="@color/white"
             android:drawableLeft="@drawable/ic_party_mode_black_24dp"/>
 
+
+        <TextView
+            android:id="@+id/txtSelectedPlant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:text="TextView"
+            android:textColor="#13a000"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="#f79ff1"/>
 
         <TextView
             android:id="@+id/txtAzimuth"
