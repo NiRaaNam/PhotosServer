@@ -32,7 +32,9 @@ import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Table_ShowSingle extends AppCompatActivity /*implements  OnMapReadyCallback*/{
 
@@ -246,11 +248,33 @@ public class Table_ShowSingle extends AppCompatActivity /*implements  OnMapReady
             }*/
 
             String FullName = String.valueOf(Value1Holder);
-            String[] separated = FullName.split(" ");
-            String thelink = separated[0]+"%20"+separated[1];
 
-            new DownloadImageFromInternet((ImageView) findViewById(R.id.imageView))
-                    .execute(thelink);
+            StringBuffer sb = new StringBuffer();
+
+            if(FullName.contains(" ")){
+                String[] separated = FullName.split(" ");
+
+
+                int length = separated.length;
+                for(int i=0;i<length;i++){
+                    if(i==length-1){
+                        sb.append(separated[i]);
+                    }else{
+                        sb.append(separated[i]+"%20");
+                    }
+
+                }
+                String thelink = sb.toString();
+
+                new DownloadImageFromInternet((ImageView) findViewById(R.id.imageView))
+                        .execute(thelink);
+            }else{
+                new DownloadImageFromInternet((ImageView) findViewById(R.id.imageView))
+                        .execute(FullName);
+            }
+
+
+
 
             /*SupportMapFragment mapFragment =
                     (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
