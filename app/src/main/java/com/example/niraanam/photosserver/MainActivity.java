@@ -308,9 +308,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(MainActivity.this, Table_ShowAllList.class);
-                i.putExtra("Plant",getPlant);
-                startActivity(i);
+                if(getPlant.equals("No Plant Selecting")){
+                    Toast.makeText(getApplicationContext(),"!!! No Plant Selection !!!", Toast.LENGTH_LONG).show();
+                }else{
+
+                    Intent i = new Intent(MainActivity.this, Table_ShowAllList.class);
+                    i.putExtra("Plant",getPlant);
+                    startActivity(i);
+                }
 
             }
         });
