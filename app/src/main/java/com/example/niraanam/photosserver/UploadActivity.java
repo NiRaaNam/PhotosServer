@@ -92,6 +92,10 @@ public class UploadActivity extends AppCompatActivity {
             UPLOAD_LINK = Config.RICE_UPLOAD;
         }else if(WhatThePlant.equals("Maize")){
             UPLOAD_LINK = Config.MAIZE_UPLOAD;
+        }else if(WhatThePlant.equals("Cassava")){
+            UPLOAD_LINK = Config.CASSAVA_UPLOAD;
+        }else if(WhatThePlant.equals("Sugarcane")){
+            UPLOAD_LINK = Config.SUGARCANE_UPLOAD;
         }
 
         String[] separated = Lat.split(":");

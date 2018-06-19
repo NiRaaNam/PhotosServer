@@ -113,6 +113,10 @@ public class MainActivity2 extends AppCompatActivity {
             UPLOAD_LINK = Config.RICE_GALLERY;
         }else if(WhatThePlant.equals("Maize")){
             UPLOAD_LINK = Config.MAIZE_GALLERY;
+        }else if(WhatThePlant.equals("Cassava")){
+            UPLOAD_LINK = Config.CASSAVA_GALLERY;
+        }else if(WhatThePlant.equals("Sugarcane")){
+            UPLOAD_LINK = Config.SUGARCANE_GALLERY;
         }
 
 

@@ -23,4 +23,14 @@ public class Config {
     public static final String MAIZE_GALLERY = "http://150.107.31.104/photo_android/02Maize_Gallery.php";
     public static final String MAIZE_READALL = "http://150.107.31.104/photo_android/02Maize_readAll.php";
     public static final String MAIZE_READONE = "http://150.107.31.104/photo_android/02Maize_read_to_single.php";
+
+    public static final String CASSAVA_UPLOAD  = "http://150.107.31.104/photo_android/03Cassava_upload.php";
+    public static final String CASSAVA_GALLERY = "http://150.107.31.104/photo_android/03Cassava_Gallery.php";
+    public static final String CASSAVA_READALL = "http://150.107.31.104/photo_android/03Cassava_readAll.php";
+    public static final String CASSAVA_READONE = "http://150.107.31.104/photo_android/03Cassava_read_to_single.php";
+
+    public static final String SUGARCANE_UPLOAD  = "http://150.107.31.104/photo_android/04Sugarcane_upload.php";
+    public static final String SUGARCANE_GALLERY = "http://150.107.31.104/photo_android/04Sugarcane_Gallery.php";
+    public static final String SUGARCANE_READALL = "http://150.107.31.104/photo_android/04Sugarcane_readAll.php";
+    public static final String SUGARCANE_READONE = "http://150.107.31.104/photo_android/04Sugarcane_read_to_single.php";
 }

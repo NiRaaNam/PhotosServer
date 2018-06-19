@@ -67,8 +67,8 @@ import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, AdapterView.OnItemSelectedListener {
 
-    String[] plantNames={"Rice","Maize"};
-    int flags[] = {R.drawable.rice, R.drawable.maize};
+    String[] plantNames={"Rice","Maize","Cassava","Sugarcane"};
+    int flags[] = {R.drawable.rice, R.drawable.maize,R.drawable.cassava,R.drawable.sugarcane};
 
 
     LocationRequest locationRequest;
@@ -149,7 +149,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             spin.setSelection(0);
         }else if(getPlant.equals("Maize")){
             spin.setSelection(1);
-        }else {
+        }else if(getPlant.equals("Cassava")){
+            spin.setSelection(2);
+        }else if(getPlant.equals("Sugarcane")){
+            spin.setSelection(3);
+        }else{
             spin.setSelection(0);
         }
 

@@ -81,6 +81,10 @@ public class Table_ShowAllList extends AppCompatActivity {
             READALL_LINK = Config.RICE_READALL;
         }else if(WhatThePlant.equals("Maize")){
             READALL_LINK = Config.MAIZE_READALL;
+        }else if(WhatThePlant.equals("Cassava")){
+            READALL_LINK = Config.CASSAVA_READALL;
+        }else if(WhatThePlant.equals("Sugarcane")){
+            READALL_LINK = Config.SUGARCANE_READALL;
         }
 
         TableListView = (ListView)findViewById(R.id.listView_table);

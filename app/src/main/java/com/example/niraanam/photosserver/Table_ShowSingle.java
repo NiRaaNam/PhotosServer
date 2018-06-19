@@ -89,6 +89,10 @@ public class Table_ShowSingle extends AppCompatActivity /*implements  OnMapReady
             READTHE_LINK = Config.RICE_READONE;
         }else if(WhatThePlant.equals("Maize")){
             READTHE_LINK = Config.MAIZE_READONE;
+        }else if(WhatThePlant.equals("Cassava")){
+            READTHE_LINK = Config.CASSAVA_READONE;
+        }else if(WhatThePlant.equals("Sugarcane")){
+            READTHE_LINK = Config.SUGARCANE_READONE;
         }
 
         HttpURL = READTHE_LINK;
