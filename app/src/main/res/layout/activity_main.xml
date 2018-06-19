@@ -47,7 +47,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_below="@+id/spinner"
-        android:text="OK" />
+        android:background="#33ccff"
+        android:padding="7dp"
+        android:text="Confirm Selecting" />
 
 
 
@@ -84,7 +86,7 @@
             android:textColor="#13a000"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:background="#f79ff1"/>
+            android:background="#33ccff"/>
 
         <TextView
             android:id="@+id/txtAzimuth"

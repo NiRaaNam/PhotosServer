@@ -36,6 +36,8 @@ public class Table_ShowAllList extends AppCompatActivity {
 
     Button more;
 
+    String READALL_LINK, WhatThePlant;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +74,15 @@ public class Table_ShowAllList extends AppCompatActivity {
             }
         });*/
 
+        Intent i = getIntent();
+        WhatThePlant = i.getStringExtra("Plant");
+
+        if(WhatThePlant.equals("Rice")){
+            READALL_LINK = Config.RICE_READALL;
+        }else if(WhatThePlant.equals("Maize")){
+            READALL_LINK = Config.MAIZE_READALL;
+        }
+
         TableListView = (ListView)findViewById(R.id.listView_table);
 
         progressBar = (ProgressBar)findViewById(R.id.progressBar_table);
@@ -90,6 +101,7 @@ public class Table_ShowAllList extends AppCompatActivity {
 
                 // Sending ListView clicked value using intent.
                 intent.putExtra("ListViewValue", IdList.get(position).toString());
+                intent.putExtra("Plant",WhatThePlant);
 
                 startActivity(intent);
 
@@ -97,6 +109,8 @@ public class Table_ShowAllList extends AppCompatActivity {
 
             }
         });
+
+
     }
 
     public final  boolean isInternetOn() {
@@ -104,7 +118,7 @@ public class Table_ShowAllList extends AppCompatActivity {
         if(isInternetAvailable()== true){
 
             //HttpUrl = "http://150.107.31.104/photo_android/read.php";
-            HttpUrl = Config.PATH_READALL_FROMSERVER;
+            HttpUrl = READALL_LINK;
 
             new GetHttpResponse(Table_ShowAllList.this).execute();
 

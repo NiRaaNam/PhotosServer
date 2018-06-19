@@ -56,6 +56,8 @@ public class UploadActivity extends AppCompatActivity {
     private String  Azimuth,Lat,Lon,GetEditText= null;
     ExifInterface exif;
 
+    String UPLOAD_LINK, WhatThePlant;
+
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +86,13 @@ public class UploadActivity extends AppCompatActivity {
         Azimuth = i.getStringExtra("AzimuthValue");
         Lat = i.getStringExtra("LatValue");
         Lon = i.getStringExtra("LonValue");
+        WhatThePlant = i.getStringExtra("Plant");
+
+        if(WhatThePlant.equals("Rice")){
+            UPLOAD_LINK = Config.RICE_UPLOAD;
+        }else if(WhatThePlant.equals("Maize")){
+            UPLOAD_LINK = Config.MAIZE_UPLOAD;
+        }
 
         String[] separated = Lat.split(":");
         String tmp_lat = separated[0]+"/1,"+separated[1]+"/1,"+separated[2]+"/1";
@@ -339,7 +348,7 @@ public class UploadActivity extends AppCompatActivity {
             String responseString = null;
 
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost(Config.FILE_UPLOAD_URL);
+            HttpPost httppost = new HttpPost(UPLOAD_LINK);
 
             try {
                 AndroidMultiPartEntity entity = new AndroidMultiPartEntity(

@@ -6,10 +6,21 @@ package com.example.niraanam.photosserver;
 
 public class Config {
 
-    // File upload url (replace the ip with your server address)
-    public static final String FILE_UPLOAD_URL = "http://150.107.31.104/photo_android/file_upload.php";
     // Directory name to store captured images and videos
     public static final String IMAGE_DIRECTORY_NAME = "Camera";
 
+    // File upload url (replace the ip with your server address)
+    public static final String FILE_UPLOAD_URL = "http://150.107.31.104/photo_android/file_upload.php";
     public static final String PATH_READALL_FROMSERVER = "http://150.107.31.104/photo_android/read.php";
+
+    public static final String RICE_UPLOAD  = "http://150.107.31.104/photo_android/01Rice_upload.php";
+    public static final String RICE_GALLERY = "http://150.107.31.104/photo_android/01Rice_Gallery.php";
+    public static final String RICE_READALL = "http://150.107.31.104/photo_android/01Rice_readAll.php";
+    public static final String RICE_READONE = "http://150.107.31.104/photo_android/01Rice_read_to_single.php";
+
+
+    public static final String MAIZE_UPLOAD  = "http://150.107.31.104/photo_android/02Maize_upload.php";
+    public static final String MAIZE_GALLERY = "http://150.107.31.104/photo_android/02Maize_Gallery.php";
+    public static final String MAIZE_READALL = "http://150.107.31.104/photo_android/02Maize_readAll.php";
+    public static final String MAIZE_READONE = "http://150.107.31.104/photo_android/02Maize_read_to_single.php";
 }

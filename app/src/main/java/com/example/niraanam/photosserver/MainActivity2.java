@@ -51,6 +51,8 @@ public class MainActivity2 extends AppCompatActivity {
     String upLoadServerUri = null;
     int ii;
 
+    String UPLOAD_LINK, WhatThePlant;
+
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,10 +100,22 @@ public class MainActivity2 extends AppCompatActivity {
                 intent.putExtra("title","Select media");
                 // Mode 1 for both images and videos selection, 2 for images only and 3 for videos!
                 intent.putExtra("mode",2);
-                intent.putExtra("maxSelection",100);
+                intent.putExtra("maxSelection",30);
                 startActivityForResult(intent,OPEN_MEDIA_PICKER);
             }
         });
+
+
+        Intent i = getIntent();
+        WhatThePlant = i.getStringExtra("Plant");
+
+        if(WhatThePlant.equals("Rice")){
+            UPLOAD_LINK = Config.RICE_GALLERY;
+        }else if(WhatThePlant.equals("Maize")){
+            UPLOAD_LINK = Config.MAIZE_GALLERY;
+        }
+
+
 
         builder = new StringBuilder();
         listView= (ListView) findViewById(R.id.listview);
@@ -114,7 +128,7 @@ public class MainActivity2 extends AppCompatActivity {
         listtoserv = (Button) findViewById(R.id.sendlisttoServ);
 
         /************* Php script path ****************/
-        upLoadServerUri = "http://150.107.31.104/photo_android/UploadToServerGallery.php";
+        upLoadServerUri = UPLOAD_LINK;
 
         listtoserv.setOnClickListener(new View.OnClickListener() {
 
@@ -279,7 +293,7 @@ public class MainActivity2 extends AppCompatActivity {
         intent.putExtra("title","Select media");
         // Mode 1 for both images and videos selection, 2 for images only and 3 for videos!
         intent.putExtra("mode",2);
-        intent.putExtra("maxSelection",100);
+        intent.putExtra("maxSelection",30);
         startActivityForResult(intent,OPEN_MEDIA_PICKER);
     }
 

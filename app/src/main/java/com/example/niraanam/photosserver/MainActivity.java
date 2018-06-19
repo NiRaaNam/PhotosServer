@@ -67,8 +67,8 @@ import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, AdapterView.OnItemSelectedListener {
 
-    String[] plantNames={"New Selecting","Rice","Maize"};
-    int flags[] = {R.drawable.ic_refresh_black_24dp,R.drawable.rice, R.drawable.maize};
+    String[] plantNames={"Rice","Maize"};
+    int flags[] = {R.drawable.rice, R.drawable.maize};
 
 
     LocationRequest locationRequest;
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     Spinner spin;
     SharedPreferences pref;
-    String getPlant,finalPlant;
+    String getPlant,finalPlant,checkBUTTONOK_1,checkBUTTONOK_2;
 
     @SuppressLint("ResourceType")
 
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
                 SharedPreferences.Editor edit = pref.edit();
                 //Storing Data using SharedPreferences
-                edit.putString("Plant", "No Selecting");
+                edit.putString("Plant", "No Plant Selecting");
                 edit.commit();
                 getPlant = pref.getString("Plant", "");
         }
@@ -146,20 +146,37 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         CustomAdapter_Spinner customAdapter_spinner=new CustomAdapter_Spinner(getApplicationContext(),flags,plantNames);
         spin.setAdapter(customAdapter_spinner);
         if(getPlant.equals("Rice")){
-            spin.setSelection(1);
+            spin.setSelection(0);
         }else if(getPlant.equals("Maize")){
-            spin.setSelection(2);
+            spin.setSelection(1);
         }else {
             spin.setSelection(0);
         }
 
+        checkBUTTONOK_1 = getPlant;
 
+
+        btnOK.setVisibility(View.GONE);
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                SharedPreferences.Editor edit = pref.edit();
+                //Storing Data using SharedPreferences
+                edit.putString("Plant", finalPlant);
+                edit.commit();
+                getPlant = pref.getString("Plant", "");
 
-                AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+
+                txtPlantSelecting.setText(getPlant.toString());
+
+                Toast.makeText(getApplicationContext(), "Actived on "+getPlant.toString(), Toast.LENGTH_SHORT).show();
+
+                checkBUTTONOK_1 = getPlant.toString();
+                btnOK.setVisibility(View.GONE);
+
+
+                /*AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
                 //alertDialog.setTitle("Confirm Plant Selecting");
                 alertDialog.setMessage("You are selected \""+finalPlant+"\"");
                 alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "YES",
@@ -177,6 +194,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
                                 Toast.makeText(getApplicationContext(), "Actived on "+getPlant.toString(), Toast.LENGTH_SHORT).show();
 
+                                checkBUTTONOK_1 = getPlant.toString();
+                                btnOK.setVisibility(View.GONE);
+
                             }
                         });
                 alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "NO",
@@ -185,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                 dialog.dismiss();
                             }
                         });
-                alertDialog.show();
+                alertDialog.show();*/
 
             }
 
@@ -242,7 +262,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     Toast.makeText(getApplicationContext(),
                             "Please wait for GPS Values",
                             Toast.LENGTH_SHORT).show();
-                }else {
+                }else if(getPlant.equals("No Plant Selecting")){
+                    Toast.makeText(getApplicationContext(),
+                            "Please Select Plant type!!!",
+                            Toast.LENGTH_LONG).show();
+                }else{
+
                     GOTOAlert();
                 }
 
@@ -265,6 +290,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             public void onClick(View v) {
 
                 Intent i = new Intent(MainActivity.this, MainActivity2.class);
+                i.putExtra("Plant",getPlant);
                 startActivity(i);
 
             }
@@ -277,6 +303,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             public void onClick(View v) {
 
                 Intent i = new Intent(MainActivity.this, Table_ShowAllList.class);
+                i.putExtra("Plant",getPlant);
                 startActivity(i);
 
             }
@@ -444,6 +471,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         i.putExtra("AzimuthValue",sendAzimuth2);
         i.putExtra("LatValue",sendLatitude2);
         i.putExtra("LonValue",sendLongitude2);
+        i.putExtra("Plant",getPlant);
         startActivity(i);
     }
 
@@ -642,10 +670,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     }
                 });
 
-
-
-
-
     }
 
     @Override
@@ -665,6 +689,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         //String selectPlant = plantNames[position].toString();
 
         finalPlant = plantNames[position].toString();
+
+        checkBUTTONOK_2 = finalPlant;
+
+        if(checkBUTTONOK_1.equals(checkBUTTONOK_2)){
+            btnOK.setVisibility(View.GONE);
+        }else{
+            btnOK.setVisibility(View.VISIBLE);
+        }
 
         //Toast.makeText(getApplicationContext(), plantNames[position], Toast.LENGTH_LONG).show();
     }

@@ -2,12 +2,16 @@ package com.example.niraanam.photosserver;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +24,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;*/
 
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,13 +34,13 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
 
-public class Table_ShowSingle extends AppCompatActivity /*implements OnMapReadyCallback*/{
+public class Table_ShowSingle extends AppCompatActivity /*implements  OnMapReadyCallback*/{
 
     HttpParse httpParse = new HttpParse();
     ProgressDialog pDialog;
 
     // Http Url For Filter Student Data from Id Sent from previous activity.
-    String HttpURL = "http://150.107.31.104/photo_android/read_to_single.php";
+    String HttpURL;
 
     String finalResult ;
     HashMap<String,String> hashMap = new HashMap<>();
@@ -48,14 +54,16 @@ public class Table_ShowSingle extends AppCompatActivity /*implements OnMapReadyC
 
     String TempItem;
     ProgressDialog progressDialog2;
-    Button theClose;
+    Button theClose, btnRotate;
+    ImageView img;
+
+    String READTHE_LINK, WhatThePlant;
+    int ImageRotate = 90;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.table_showsingle);
-
-
 
         //*** Permission StrictMode
         if (android.os.Build.VERSION.SDK_INT > 9) {
@@ -70,6 +78,22 @@ public class Table_ShowSingle extends AppCompatActivity /*implements OnMapReadyC
         ImgPVal = (TextView)findViewById(R.id.txtImagePath);
         ImgCVal = (TextView)findViewById(R.id.txtImageComment);
 
+        btnRotate = (Button) findViewById(R.id.btnImageRotate);
+        btnRotate.setVisibility(View.GONE);
+        img = (ImageView)findViewById(R.id.imageView);
+
+        Intent i = getIntent();
+        WhatThePlant = i.getStringExtra("Plant");
+
+        if(WhatThePlant.equals("Rice")){
+            READTHE_LINK = Config.RICE_READONE;
+        }else if(WhatThePlant.equals("Maize")){
+            READTHE_LINK = Config.MAIZE_READONE;
+        }
+
+        HttpURL = READTHE_LINK;
+
+
         //Receiving the ListView Clicked item value send by previous activity.
         TempItem = getIntent().getStringExtra("ListViewValue");
 
@@ -77,6 +101,18 @@ public class Table_ShowSingle extends AppCompatActivity /*implements OnMapReadyC
 
         //Calling method to filter Student Record and open selected record.
         HttpWebCall(TempItem);
+
+
+        btnRotate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                img.setRotation(ImageRotate);
+                ImageRotate=ImageRotate+90;
+
+            }
+        });
+
 
     }
 
@@ -229,6 +265,7 @@ public class Table_ShowSingle extends AppCompatActivity /*implements OnMapReadyC
         private class DownloadImageFromInternet extends AsyncTask<String, Void, Bitmap> {
             ImageView imageView;
 
+
             public DownloadImageFromInternet(ImageView imageView) {
                 this.imageView = imageView;
                 pDialog = ProgressDialog.show(Table_ShowSingle.this,"Loading Photo...",null,true,true);
@@ -251,7 +288,10 @@ public class Table_ShowSingle extends AppCompatActivity /*implements OnMapReadyC
             protected void onPostExecute(Bitmap result) {
                 pDialog.dismiss();
                 imageView.setImageBitmap(result);
+
+                btnRotate.setVisibility(View.VISIBLE);
             }
+            
         }
     }
 
