@@ -96,6 +96,11 @@ public class UploadActivity extends AppCompatActivity {
             UPLOAD_LINK = Config.CASSAVA_UPLOAD;
         }else if(WhatThePlant.equals("Sugarcane")){
             UPLOAD_LINK = Config.SUGARCANE_UPLOAD;
+        }else if(WhatThePlant.equals("Other")){
+            UPLOAD_LINK = Config.OTHER_UPLOAD;
+        }else{
+            Toast.makeText(getApplicationContext(),"!!! No Plant Selection !!!", Toast.LENGTH_LONG).show();
+            finish();
         }
 
         String[] separated = Lat.split(":");

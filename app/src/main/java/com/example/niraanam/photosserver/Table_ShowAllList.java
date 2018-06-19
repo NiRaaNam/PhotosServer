@@ -85,6 +85,11 @@ public class Table_ShowAllList extends AppCompatActivity {
             READALL_LINK = Config.CASSAVA_READALL;
         }else if(WhatThePlant.equals("Sugarcane")){
             READALL_LINK = Config.SUGARCANE_READALL;
+        }else if(WhatThePlant.equals("Other")){
+            READALL_LINK = Config.OTHER_READALL;
+        }else{
+            Toast.makeText(getApplicationContext(),"!!! No Plant Selection !!!", Toast.LENGTH_LONG).show();
+            finish();
         }
 
         TableListView = (ListView)findViewById(R.id.listView_table);

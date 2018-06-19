@@ -33,4 +33,11 @@ public class Config {
     public static final String SUGARCANE_GALLERY = "http://150.107.31.104/photo_android/04Sugarcane_Gallery.php";
     public static final String SUGARCANE_READALL = "http://150.107.31.104/photo_android/04Sugarcane_readAll.php";
     public static final String SUGARCANE_READONE = "http://150.107.31.104/photo_android/04Sugarcane_read_to_single.php";
+
+
+
+    public static final String OTHER_UPLOAD  = "http://150.107.31.104/photo_android/99Other_upload.php";
+    public static final String OTHER_GALLERY = "http://150.107.31.104/photo_android/99Other_Gallery.php";
+    public static final String OTHER_READALL = "http://150.107.31.104/photo_android/99Other_readAll.php";
+    public static final String OTHER_READONE = "http://150.107.31.104/photo_android/99Other_read_to_single.php";
 }

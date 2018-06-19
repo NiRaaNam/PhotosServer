@@ -117,6 +117,11 @@ public class MainActivity2 extends AppCompatActivity {
             UPLOAD_LINK = Config.CASSAVA_GALLERY;
         }else if(WhatThePlant.equals("Sugarcane")){
             UPLOAD_LINK = Config.SUGARCANE_GALLERY;
+        }else if(WhatThePlant.equals("Other")){
+            UPLOAD_LINK = Config.OTHER_GALLERY;
+        }else{
+            Toast.makeText(getApplicationContext(),"!!! No Plant Selection !!!", Toast.LENGTH_LONG).show();
+            finish();
         }
 
 
