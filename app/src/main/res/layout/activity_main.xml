@@ -1,137 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/view_background"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/guideTXT"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="COPYRIGHT © GISTDA"
-        android:textAlignment="center"
-        android:textColor="#ff0000"
-        android:textSize="17sp"
-        android:textStyle="bold"
-        android:background="#a4c0f5"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.033" />
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-    <Button
-        android:id="@+id/DB_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/guideTXT"
-        android:drawableLeft="@drawable/ic_view_list_black_24dp"
-        android:text="View All" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <include layout="@layout/content_themain" />
 
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/guideTXT" />
-
-    <Button
-        android:id="@+id/btnOK"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/spinner"
-        android:background="#33ccff"
-        android:padding="7dp"
-        android:text="Confirm Selecting" />
-
-
-
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:orientation="vertical" >
-
-        <!-- Capture picture button -->
-
-        <Button
-            android:id="@+id/btnCapturePicture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:background="@color/btn_bg"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="@string/btnTakePicture"
-            android:textColor="@color/white"
-            android:drawableLeft="@drawable/ic_party_mode_black_24dp"/>
-
-
-        <TextView
-            android:id="@+id/txtSelectedPlant"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:text="TextView"
-            android:textColor="#13a000"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:background="#33ccff"/>
-
-        <TextView
-            android:id="@+id/txtAzimuth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="top|center"
-            android:padding="15dp"
-            android:textColor="#3F51B5"
-            android:textSize="15dp"
-            android:text="Azimuth: "/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:id="@+id/dms"
-            android:text="Degree Minute Second" />
-
-
-
-
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="182dp"
-        android:layout_height="80dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        app:srcCompat="@drawable/gistda" />
-
-    <Button
-        android:id="@+id/btnFromGallery"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/imageView2"
-        android:background="@color/btn_bg"
-        android:drawableLeft="@drawable/ic_photo_library_black_24dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:text="@string/btnSelectGallery"
-        android:textColor="@color/white" />
-
-
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

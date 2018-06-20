@@ -20,6 +20,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.provider.Settings;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -118,6 +120,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         //Toast.makeText(getApplicationContext(), "คำเตือน: อย่าลืมเปิด Location Tags ของกล้อง เพื่อให้ได้ภาพที่มีค่าพิกัด", Toast.LENGTH_LONG).show();
 
         tvAzimuth = (TextView) findViewById(R.id.txtAzimuth);
@@ -322,10 +327,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         connectToApi();
 
-
-
     }
-
 
 
     public void GOTOAlert(){
@@ -715,6 +717,51 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onNothingSelected(AdapterView<?> arg0) {
         // TODO Auto-generated method stub
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+
+            listofmanual();
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void listofmanual() {
+
+        final CharSequence[] items = {
+                "VDO", "PDF"
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Please Select the Manual:");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                // Do something with the selection
+                //mDoneButton.setText(items[item]);
+                Toast.makeText(getApplicationContext(), "Press on: "+items[item], Toast.LENGTH_LONG).show();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+
     }
 
 }

@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Photos Server</string>
 
+    <string name="manual">Manual</string>>
+
     <string name="btnTakePicture">Take Photo</string>
     <string name="btnUploadToServer">Upload to Server</string>
 
