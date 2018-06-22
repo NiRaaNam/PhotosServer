@@ -756,7 +756,24 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             public void onClick(DialogInterface dialog, int item) {
                 // Do something with the selection
                 //mDoneButton.setText(items[item]);
-                Toast.makeText(getApplicationContext(), "Press on: "+items[item], Toast.LENGTH_LONG).show();
+
+                String check = String.valueOf(items[item]);
+                if(check.equals("VDO")){
+                    String url = "http://150.107.31.104/photo_android/Manual/VDO/GISTDA_Photos.mp4";
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+
+                }else if(check.equals("PDF")){
+                    String url = "http://150.107.31.104/photo_android/Manual/PDF/AppManual.pdf";
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+                }else{
+
+                }
+
+
             }
         });
         AlertDialog alert = builder.create();
