@@ -104,11 +104,18 @@ public class UploadActivity extends AppCompatActivity {
         }
 
         String[] separated = Lat.split(":");
-        String tmp_lat = separated[0]+"/1,"+separated[1]+"/1,"+separated[2]+"/1";
+        String[] separated_decimal = separated[2].split("\\.");
+        //char[] chars = separated[2].toCharArray();
+
+        //String tmp_decimal = String.valueOf(chars[0]+chars[1]);
+
+        String tmp_lat = separated[0]+"/1,"+separated[1]+"/1,"+separated_decimal[0]+"/1";
         Lat = tmp_lat;
 
         String[] separated2 = Lon.split(":");
-        String tmp_lon = separated2[0]+"/1,"+separated2[1]+"/1,"+separated2[2]+"/1";
+        String[] separated_decimal2 = separated2[2].split("\\.");
+
+        String tmp_lon = separated2[0]+"/1,"+separated2[1]+"/1,"+separated_decimal2[0]+"/1";
         Lon = tmp_lon;
 
         txtAzimuth.setText("Azimuth: "+Azimuth+"\nLatitude: "+tmp_lat+"\nLongitude: "+Lon);
@@ -142,15 +149,15 @@ public class UploadActivity extends AppCompatActivity {
             exif.setAttribute(ExifInterface.TAG_IMAGE_DESCRIPTION,theazimuth);
             exif.setAttribute(ExifInterface.TAG_COPYRIGHT,"GISTDA (Public Organization)");
 
-            Toast.makeText(getApplicationContext(),
-                    "X: "+Lat+"\n"+"Y: "+Lon, Toast.LENGTH_LONG).show();
-
             exif.setAttribute(ExifInterface.TAG_GPS_LATITUDE,Lat.toString());
             exif.setAttribute(ExifInterface.TAG_GPS_LATITUDE_REF,"N");
             exif.setAttribute(ExifInterface.TAG_GPS_LONGITUDE,Lon.toString());
             exif.setAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF,"E");
 
             exif.saveAttributes();
+
+            Toast.makeText(getApplicationContext(),
+                    "X: "+Lat+"\n"+"Y: "+Lon, Toast.LENGTH_LONG).show();
 
 
         }catch (IOException e){
