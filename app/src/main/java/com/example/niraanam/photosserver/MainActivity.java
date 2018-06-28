@@ -114,6 +114,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     SharedPreferences pref;
     String getPlant,finalPlant,checkBUTTONOK_1,checkBUTTONOK_2;
 
+    int COUNT_PERMISSION_CLICKED;
+
     @SuppressLint("ResourceType")
 
     @Override
@@ -239,6 +241,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 1);
 
         context = getApplicationContext();
+
         GPSStatus();
         if(GpsStatus==true){
 
@@ -262,6 +265,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             AlertDialog alert = builder.create();
             alert.show();
         }
+
+        //connectToApi();
 
         btnCapturePicture = (Button) findViewById(R.id.btnCapturePicture);
         btnCapturePicture.setOnClickListener(new View.OnClickListener() {
@@ -325,7 +330,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
 
-        connectToApi();
+
 
     }
 
@@ -362,11 +367,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     }
 
-    public void GPSStatus(){
-        locationManager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
-        GpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -379,6 +379,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
+
+                    /*context = getApplicationContext();
+                    GPSStatus();*/
+                    connectToApi();
+
+
                 } else {
 
                     // permission denied, boo! Disable the
@@ -386,11 +392,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     Toast.makeText(MainActivity.this, "Permission denied to read your External storage", Toast.LENGTH_SHORT).show();
                 }
                 return;
+
             }
 
             // other 'case' lines to check for other
             // permissions this app might request
         }
+
+    }
+
+    public void GPSStatus(){
+        locationManager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
+        GpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
     /**
