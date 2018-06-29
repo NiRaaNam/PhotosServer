@@ -219,6 +219,7 @@ public class Table_ShowSingle extends AppCompatActivity /*implements  OnMapReady
         @Override
         protected void onPostExecute(Void result) {
 
+
             String FullName = String.valueOf(Value1Holder);
 
             StringBuffer sb = new StringBuffer();
@@ -244,6 +245,7 @@ public class Table_ShowSingle extends AppCompatActivity /*implements  OnMapReady
                 new DownloadImageFromInternet((ImageView) findViewById(R.id.imageView))
                         .execute(FullName);
             }
+
 
             /*SupportMapFragment mapFragment =
                     (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);

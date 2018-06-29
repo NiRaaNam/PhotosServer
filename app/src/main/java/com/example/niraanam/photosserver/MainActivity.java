@@ -380,8 +380,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
 
-                    /*context = getApplicationContext();
-                    GPSStatus();*/
                     connectToApi();
 
 
@@ -538,6 +536,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         String timeStamp = String.valueOf(new Timestamp(date.getTime()));
         String[] separated = timeStamp.split(":");
         timeStamp = separated[0]+"-"+separated[1]+"-"+separated[2];
+
+        /*String[] separated2 = timeStamp.split(" ");
+        String timestamp2 = separated2[0]+"_"+separated2[1];*/
         //System.out.println(new Timestamp(date.getTime()));
         //String timeStamp = date.toString();
 
