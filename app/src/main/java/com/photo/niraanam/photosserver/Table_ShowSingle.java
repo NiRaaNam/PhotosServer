@@ -1,4 +1,4 @@
-package com.example.niraanam.photosserver;
+package com.photo.niraanam.photosserver;
 
 import android.app.ProgressDialog;
 import android.content.Context;

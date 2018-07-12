@@ -1,4 +1,4 @@
-package com.example.niraanam.photosserver;
+package com.photo.niraanam.photosserver;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;

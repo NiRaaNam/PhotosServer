@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.niraanam.photosserver">
+    package="com.photo.niraanam.photosserver">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
@@ -28,10 +28,10 @@
         </activity>
 
         <activity
-            android:name="com.example.niraanam.photosserver.MainActivity2">
+            android:name="com.photo.niraanam.photosserver.MainActivity2">
         </activity>
         <activity
-            android:name="com.example.niraanam.photosserver.UploadActivity"
+            android:name="com.photo.niraanam.photosserver.UploadActivity"
             android:screenOrientation="portrait">
         </activity>
 
@@ -42,11 +42,11 @@
         </activity>
 
         <activity
-            android:name="com.example.niraanam.photosserver.Table_ShowAllList">
+            android:name="com.photo.niraanam.photosserver.Table_ShowAllList">
         </activity>
 
         <activity
-            android:name="com.example.niraanam.photosserver.Table_ShowSingle"
+            android:name="com.photo.niraanam.photosserver.Table_ShowSingle"
             android:screenOrientation="portrait">
         </activity>
 

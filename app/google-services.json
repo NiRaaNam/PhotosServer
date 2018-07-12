@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:18018339763:android:6369fb460cca9c09",
         "android_client_info": {
-          "package_name": "com.example.niraanam.firebasenotifications"
+          "package_name": "com.photo.niraanam.firebasenotifications"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "18018339763-bkbj7c5ll0o59bbas1j77b0ju2fitdk2.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.niraanam.firebasenotifications",
+            "package_name": "com.photo.niraanam.firebasenotifications",
             "certificate_hash": "5e6424abca48c633cdb3e439d5f61c480e9e6083"
           }
         },
@@ -58,7 +58,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:18018339763:android:c8d9cb6c4b6c858e",
         "android_client_info": {
-          "package_name": "com.example.niraanam.photosserver"
+          "package_name": "com.photo.niraanam.photosserver"
         }
       },
       "oauth_client": [

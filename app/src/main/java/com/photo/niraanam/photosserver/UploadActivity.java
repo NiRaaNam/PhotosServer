@@ -1,4 +1,4 @@
-package com.example.niraanam.photosserver;
+package com.photo.niraanam.photosserver;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -20,7 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import com.example.niraanam.photosserver.AndroidMultiPartEntity.ProgressListener;
+import com.photo.niraanam.photosserver.AndroidMultiPartEntity.ProgressListener;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;

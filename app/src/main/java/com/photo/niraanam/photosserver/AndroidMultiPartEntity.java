@@ -1,4 +1,4 @@
-package com.example.niraanam.photosserver;
+package com.photo.niraanam.photosserver;
 
 /**
  * Created by NiRaaNam on 3/24/2018.

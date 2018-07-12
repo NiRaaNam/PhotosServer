@@ -4,7 +4,7 @@
     android:id="@+id/activity_show_all_students"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.niraanam.photosserver.Table_ShowAllList">
+    tools:context="com.photo.niraanam.photosserver.Table_ShowAllList">
 
     <TextView
         android:id="@+id/textN"
