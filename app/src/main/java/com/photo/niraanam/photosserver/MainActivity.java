@@ -773,13 +773,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
                 String check = String.valueOf(items[item]);
                 if(check.equals("VDO")){
-                    String url = "http://150.107.31.104/photo_android/Manual/VDO/GISTDA_Photos.mp4";
+                    String url = "http://202.29.107.21/photo_android/Manual/VDO/GISTDA_Photos.mp4";
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     i.setData(Uri.parse(url));
                     startActivity(i);
 
                 }else if(check.equals("PDF")){
-                    String url = "http://150.107.31.104/photo_android/Manual/PDF/AppManual.pdf";
+                    String url = "http://202.29.107.21/photo_android/Manual/PDF/AppManual.pdf";
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     i.setData(Uri.parse(url));
                     startActivity(i);
